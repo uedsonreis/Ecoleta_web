@@ -13,7 +13,7 @@ class Service {
         return response.data
     }
 
-    public async savePoint(point: any): Promise<number> {
+    public async savePoint(point: any): Promise<{ id: number}> {
         const response = await this.api.post('points', point)
         return response.data
     }

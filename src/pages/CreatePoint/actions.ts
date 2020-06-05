@@ -1,17 +1,30 @@
 import api from '../../services/api'
 import ibge from '../../services/ibge'
 
-import { Item } from '../../domain/entities'
+import { Item, Point } from '../../domain/entities'
 
 class Actions {
 
-    public async save(point: any): Promise<boolean> {
-        point.image = "https://images.unsplash.com/photo-1578916171728-46686eac8d58?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
+    public async save(point: Point): Promise<boolean> {
+        const data = new FormData()
+
+        const stringItems = point.items.map(i => i.id).toString()
+
+        data.append('name', point.name)
+        data.append('email', point.email)
+        data.append('whatsapp', point.whatsapp)
+        data.append('latitude', String(point.latitude))
+        data.append('longitude', String(point.longitude))
+        data.append('uf', point.uf)
+        data.append('city', point.city)
+        data.append('items', stringItems)
+        data.append('image', point.image)
+
         console.log('Saving: ', point)
 
-        const id = await api.savePoint(point)
-        console.log('New Point created with ID ', id)
-        return (id > 0)
+        const result: { id: number } = await api.savePoint(data)
+        console.log('New Point created with ID ', result)
+        return (result.id > 0)
     }
 
     public async getItems(): Promise<Item[]> {

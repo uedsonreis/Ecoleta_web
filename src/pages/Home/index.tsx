@@ -6,7 +6,7 @@ import Header from '../../components/Header'
 
 import './styles.css'
 
-const Home = () => {
+export default function Home() {
     return (
         <div id="page-home">
             <div className="content">
@@ -27,5 +27,3 @@ const Home = () => {
         </div>
     )
 }
-
-export default Home

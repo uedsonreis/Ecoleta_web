@@ -5,6 +5,7 @@ import { Map, TileLayer, Marker } from 'react-leaflet'
 import { LeafletMouseEvent } from 'leaflet'
 
 import Header from '../../components/Header'
+import DropZone from '../../components/DropZone'
 
 import { Item } from '../../domain/entities'
 
@@ -13,6 +14,7 @@ import './styles.css'
 
 const CreatePoint = () => {
 
+    const [selectedFile, setSelectedFile] = useState<File>()
     const [items, setItems] = useState<Item[]>([])
     const [states, setStates] = useState<string[]>([])
     const [cities, setCities] = useState<string[]>([])
@@ -81,8 +83,9 @@ const CreatePoint = () => {
         const city = selectedCity
         const [latitude, longitude] = selectedPosition
         const items = selectedItems
+        const image = selectedFile
 
-        actions.save({ name, email, whatsapp, uf, city, latitude, longitude, items }).then(saved => {
+        actions.save({ name, email, whatsapp, uf, city, latitude, longitude, items, image }).then(saved => {
             if (saved) {
                 alert('Novo Ponto de Coleta salvo com sucesso!')
                 history.push('/')
@@ -104,6 +107,8 @@ const CreatePoint = () => {
             <form onSubmit={handleSubmit}>
                 <h1>Cadastro do Ponto de Coleta</h1>
                 
+                <DropZone onSelectedFile={setSelectedFile} />
+
                 <fieldset>
                     <legend> <h2>Dados</h2> </legend>
                     
